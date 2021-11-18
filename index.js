@@ -28,9 +28,27 @@ app.get('/', (req, res) => {
 
 
 client.connect(err => {
-    const servicesCollection = client.db("modileZoneBd").collection("productsData");
+const productsCollection = client.db("modileZoneBd").collection("productsData");
+
+    //-------------- Add phones-------------------------
+
+    app.post("/addproducts", async (req, res) => {
+
+        const result = await productsCollection.insertOne(req.body);
+        res.send(result);
+
+
+    });
    
-   
+
+
+    //-------------- Get all phones-----------------------
+    app.get("/allProducts", async (req, res) => {
+
+        const result = await productsCollection.find({}).toArray();
+        res.send(result);
+
+    });
     
     
 
