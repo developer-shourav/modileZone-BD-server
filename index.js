@@ -29,10 +29,11 @@ app.get('/', (req, res) => {
 
 client.connect(err => {
 const productsCollection = client.db("modileZoneBd").collection("productsData");
+const buyingCollection = client.db("modileZoneBd").collection("buyingData");
 
     //-------------- Add phones-------------------------
 
-    app.post("/addproducts", async (req, res) => {
+    app.post("/addProducts", async (req, res) => {
 
         const result = await productsCollection.insertOne(req.body);
         res.send(result);
@@ -51,8 +52,57 @@ const productsCollection = client.db("modileZoneBd").collection("productsData");
     });
     
     
+ //---------Get single Product--------------
+    app.get("/singleProduct/:id", async (req, res) => {
+
+        const result = await productsCollection.find({ _id: ObjectId(req.params.id) }).toArray();
+
+        res.send(result[0]);
+    });
 
       
+
+//---------Confirm purches--------------
+    app.post("/confirmPurchese", async (req, res) => {
+        const result = await buyingCollection.insertOne(req.body);
+        res.send(result);
+
+    });
+
+
+//--------------  My confirmOrders--------
+    app.get("/myOrders/:email", async (req, res) => {
+        const result = await buyingCollection.find({ email: req.params.email }).toArray();
+        res.send(result);
+    })
+
+
+
+//--------------Delete Order ----------------
+    app.delete("/deleteOrder/:id", async (req, res) => {
+        const result = await buyingCollection.deleteOne({ _id: ObjectId(req.params.id), });
+
+        res.send(result);
+    });
+
+
+    //update statuses
+    app.put("/updateStatus/:id", (req, res) => {
+        const id = req.params.id;
+        const updateStatus = req.body.status;
+        const filter = { _id: ObjectId(id) };
+        console.log(updateStatus);
+        buyingCollection.updateOne(filter, { $set: { status: updateStatus }, })
+            .then((result) => {
+                res.send(result);
+            });
+    })
+
+
+
+
+
+
 
 });
   
