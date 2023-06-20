@@ -17,4 +17,4 @@ Visite our websit to get an Awesome device and after sell service  [MobileZone B
 - We give spicel discount
 - We seel smartphone and provide exchange offer
 
-# Thank you ... 
+# Thank you .
