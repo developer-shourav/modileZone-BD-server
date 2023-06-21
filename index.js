@@ -14,7 +14,12 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 const port = process.env.PORT || 8000;
 const app = express()
 
-app.use(cors());
+const corsConfig = {
+    origin: '*',
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE']
+    }
+app.use(cors(corsConfig))
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -23,7 +28,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 
 app.get('/', (req, res) => {
-    res.send('Hello Sir ! Welcome to modibleZoon BD server...')
+    res.send('Hello Sir ! Welcome to modibleZoon BD ')
 })
 
 
